@@ -23,8 +23,16 @@ Built with **HTML · CSS · Vanilla JS (Fetch API)** on the frontend and **PHP �
 ### Client Features
 - ✅ Secure login
 - ✅ View **assigned products only**
+- ✅ **Browse all available products** (NEW)
+- ✅ **Shopping cart functionality** (NEW)
+- ✅ **Profile management** (NEW)
 - ✅ Filter products by category
+- ✅ Search products by name, brand, serial
 - ✅ View product images
+- ✅ Add products to cart
+- ✅ Update cart quantities
+- ✅ Update profile information
+- ✅ Change password
 - ✅ Report issues (database ready)
 
 ---
@@ -228,6 +236,25 @@ http://localhost/equipmentapp/public/pages/login.html
 | GET | `/api/images.php?product_id={id}` | ✅ | Get product images |
 | PUT | `/api/images.php?id={id}&action=primary` | 🔒 Admin | Set as primary |
 | DELETE | `/api/images.php?id={id}` | 🔒 Admin | Delete image |
+
+### Cart (NEW)
+
+| Method | URL | Auth | Description |
+|--------|-----|------|-------------|
+| GET | `/api/cart.php` | 👤 Client | Get cart items |
+| GET | `/api/cart.php?action=count` | 👤 Client | Get cart count |
+| POST | `/api/cart.php` | 👤 Client | Add item to cart |
+| PUT | `/api/cart.php?id={id}` | 👤 Client | Update quantity |
+| DELETE | `/api/cart.php?id={id}` | 👤 Client | Remove item |
+| DELETE | `/api/cart.php?action=clear` | 👤 Client | Clear cart |
+
+### Profile (NEW)
+
+| Method | URL | Auth | Description |
+|--------|-----|------|-------------|
+| GET | `/api/profile.php` | ✅ | Get current user profile |
+| PUT | `/api/profile.php` | ✅ | Update profile info |
+| PUT | `/api/profile.php?action=password` | ✅ | Change password |
 
 ### Users
 
