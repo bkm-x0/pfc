@@ -5,6 +5,7 @@
  * Usage in any API file:
  *     require_once __DIR__ . '/../config/auth.php';
  *     requireAuth();          // 401 if not logged in
+ *     requireAdmin();         // 403 if not admin
  *     jsonResponse($data);    // sends JSON + exits
  */
 
@@ -25,6 +26,37 @@ function requireAuth(): void {
     if (empty($_SESSION['user_id'])) {
         jsonResponse(['error' => 'Unauthorised — please log in.'], 401);
     }
+}
+
+// ── Guard: require admin role ────────────────────────────────
+function requireAdmin(): void {
+    requireAuth();
+    if (($_SESSION['role'] ?? '') !== 'admin') {
+        jsonResponse(['error' => 'Forbidden — admin access required.'], 403);
+    }
+}
+
+// ── Guard: require client role ───────────────────────────────
+function requireClient(): void {
+    requireAuth();
+    if (($_SESSION['role'] ?? '') !== 'client') {
+        jsonResponse(['error' => 'Forbidden — client access required.'], 403);
+    }
+}
+
+// ── Check if current user is admin ───────────────────────────
+function isAdmin(): bool {
+    return ($_SESSION['role'] ?? '') === 'admin';
+}
+
+// ── Check if current user is client ──────────────────────────
+function isClient(): bool {
+    return ($_SESSION['role'] ?? '') === 'client';
+}
+
+// ── Get current user ID ──────────────────────────────────────
+function getCurrentUserId(): ?int {
+    return isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
 }
 
 // ── Guard: require Content-Type: application/json ───────────
