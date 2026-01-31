@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Matériel Informatique</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     APP SHELL
+     ════════════════════════════════════════════════════════════ -->
+<div class="app-shell">
+
+    <!-- ── Top Bar ─────────────────────────────────────────── -->
+    <header class="topbar">
+        <div class="topbar__brand">
+            <div class="icon-box">🖥️</div>
+            Matériel Informatique
+        </div>
+        <div class="topbar__right">
+            <span class="topbar__user">Logged in as <strong id="topbar-username">…</strong></span>
+            <button class="btn btn--ghost btn--sm" id="btn-logout">Logout</button>
+        </div>
+    </header>
+
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <nav class="sidebar">
+        <div class="sidebar__nav">
+            <a href="dashboard.html" class="active">
+                <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a href="add.html">
+                <span class="nav-icon">➕</span> Add Equipment
+            </a>
+        </div>
+    </nav>
+
+    <!-- ── Main Content ────────────────────────────────────── -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p class="page-header__sub">Overview of all registered equipment</p>
+            </div>
+            <a href="add.html" class="btn btn--primary">➕ Add Equipment</a>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card__icon">📦</div>
+                <div class="stat-card__label">Total Equipment</div>
+                <div class="stat-card__value" id="stat-total">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__icon">✅</div>
+                <div class="stat-card__label">Available</div>
+                <div class="stat-card__value" id="stat-available">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__icon">💼</div>
+                <div class="stat-card__label">In Use</div>
+                <div class="stat-card__value" id="stat-inuse">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__icon">🔧</div>
+                <div class="stat-card__label">Maintenance</div>
+                <div class="stat-card__value" id="stat-maintenance">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__icon">📵</div>
+                <div class="stat-card__label">Retired</div>
+                <div class="stat-card__value" id="stat-retired">—</div>
+            </div>
+        </div>
+
+        <!-- Equipment Table -->
+        <div class="card" style="padding:0; overflow:hidden;">
+            <div style="padding:18px 22px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:600;">Equipment List</h2>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Serial №</th>
+                            <th>Status</th>
+                            <th>Purchase Date</th>
+                            <th style="width:140px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equipment-tbody">
+                        <!-- Populated by dashboard.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Equipment — Matériel Informatique</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     APP SHELL  (identical structure to dashboard)
+     ════════════════════════════════════════════════════════════ -->
+<div class="app-shell">
+
+    <!-- ── Top Bar ─────────────────────────────────────────── -->
+    <header class="topbar">
+        <div class="topbar__brand">
+            <div class="icon-box">🖥️</div>
+            Matériel Informatique
+        </div>
+        <div class="topbar__right">
+            <span class="topbar__user">Logged in as <strong id="topbar-username">…</strong></span>
+            <button class="btn btn--ghost btn--sm" id="btn-logout">Logout</button>
+        </div>
+    </header>
+
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <nav class="sidebar">
+        <div class="sidebar__nav">
+            <a href="dashboard.html">
+                <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a href="add.html" class="active">
+                <span class="nav-icon">➕</span> Add Equipment
+            </a>
+        </div>
+    </nav>
+
+    <!-- ── Main Content ────────────────────────────────────── -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 id="page-title">Add Equipment</h1>
+                <p class="page-header__sub" id="page-subtitle">Fill in the details below to register new equipment.</p>
+            </div>
+            <a href="dashboard.html" class="btn btn--ghost">← Back to Dashboard</a>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card">
+
+            <!-- Error banner (hidden by default) -->
+            <div id="form-error"
+                 style="display:none; background:rgba(224,85,85,.12); border:1px solid rgba(224,85,85,.3);
+                        border-radius:6px; padding:10px 14px; margin-bottom:20px;
+                        font-size:.82rem; color:#ef7070; line-height:1.5;">
+            </div>
+
+            <form id="equipment-form" novalidate>
+                <div class="form-grid">
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="field-name">Equipment Name</label>
+                        <input type="text" id="field-name" placeholder="e.g. ThinkPad X1 Carbon" required />
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="form-group">
+                        <label for="field-brand">Brand</label>
+                        <input type="text" id="field-brand" placeholder="e.g. Lenovo" required />
+                    </div>
+
+                    <!-- Category -->
+                    <div class="form-group">
+                        <label for="field-category">Category</label>
+                        <select id="field-category" required>
+                            <option value="">— Select category —</option>
+                            <option value="Desktop">Desktop</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Printer">Printer</option>
+                            <option value="Peripheral">Peripheral</option>
+                            <option value="Server">Server</option>
+                            <option value="Network">Network</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label for="field-status">Status</label>
+                        <select id="field-status" required>
+                            <option value="Available">Available</option>
+                            <option value="In Use">In Use</option>
+                            <option value="Under Maintenance">Under Maintenance</option>
+                            <option value="Retired">Retired</option>
+                        </select>
+                    </div>
+
+                    <!-- Serial Number -->
+                    <div class="form-group">
+                        <label for="field-serial_number">Serial Number</label>
+                        <input type="text" id="field-serial_number"
+                               placeholder="e.g. LN-X1C-20HQ-001"
+                               pattern="[A-Za-z0-9\-_]+"
+                               required />
+                    </div>
+
+                    <!-- Purchase Date -->
+                    <div class="form-group">
+                        <label for="field-purchase_date">Purchase Date</label>
+                        <input type="date" id="field-purchase_date" required />
+                    </div>
+
+                </div><!-- /form-grid -->
+
+                <!-- Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary" id="btn-submit">➕ Add Equipment</button>
+                    <a href="dashboard.html" class="btn btn--ghost">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/add.js"></script>
+</body>
+</html>
