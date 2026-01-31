@@ -72,6 +72,71 @@ class AuthController {
     }
 
     /**
+     * POST /api/auth/register
+     * Body: { "username": "...", "password": "...", "full_name": "...", "email": "..." }
+     */
+    public static function register(): void {
+        requireJSON();
+
+        $body = readJsonBody();
+        $username = trim($body['username'] ?? '');
+        $password = $body['password'] ?? '';
+        $fullName = trim($body['full_name'] ?? '');
+        $email = trim($body['email'] ?? '');
+
+        // Validate required fields
+        if ($username === '' || $password === '') {
+            jsonResponse(['error' => 'username and password are required.'], 400);
+        }
+
+        // Validate username format
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
+            jsonResponse(['error' => 'Username can only contain letters, numbers, and underscores.'], 400);
+        }
+
+        // Validate username length
+        if (strlen($username) < 3 || strlen($username) > 64) {
+            jsonResponse(['error' => 'Username must be between 3 and 64 characters.'], 400);
+        }
+
+        // Validate password length
+        if (strlen($password) < 6) {
+            jsonResponse(['error' => 'Password must be at least 6 characters.'], 400);
+        }
+
+        // Validate email if provided
+        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            jsonResponse(['error' => 'Invalid email format.'], 400);
+        }
+
+        // Check if username already exists
+        $existingUser = UserModel::findByUsername($username);
+        if ($existingUser !== null) {
+            jsonResponse(['error' => 'Username already exists.'], 409);
+        }
+
+        // Create user (default role is 'client')
+        $userModel = new UserModel();
+        $userId = $userModel->create([
+            'username' => $username,
+            'password' => $password,
+            'role' => 'client',
+            'full_name' => $fullName,
+            'email' => $email
+        ]);
+
+        if ($userId) {
+            jsonResponse([
+                'success' => true,
+                'message' => 'Registration successful. You can now log in.',
+                'user_id' => $userId
+            ], 201);
+        } else {
+            jsonResponse(['error' => 'Failed to create user account.'], 500);
+        }
+    }
+
+    /**
      * GET /api/auth/me
      * Returns current session info (used by frontend on page load).
      */

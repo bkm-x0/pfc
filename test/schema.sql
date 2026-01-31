@@ -144,6 +144,48 @@ CREATE TABLE issues (
 ) ENGINE=InnoDB;
 
 -- ------------------------------------------------------------
+-- Table: cart (shopping cart for clients)
+-- ------------------------------------------------------------
+DROP TABLE IF EXISTS cart;
+CREATE TABLE cart (
+    id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id     INT UNSIGNED NOT NULL,
+    product_id  INT UNSIGNED NOT NULL,
+    quantity    INT UNSIGNED NOT NULL DEFAULT 1,
+    added_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_product (user_id, product_id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_product_id (product_id)
+) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------
+-- Table: payments (for tracking client payments)
+-- ------------------------------------------------------------
+DROP TABLE IF EXISTS payments;
+CREATE TABLE payments (
+    id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id         INT UNSIGNED NOT NULL,
+    product_id      INT UNSIGNED NULL,
+    amount          DECIMAL(10,2) NOT NULL,
+    payment_method  ENUM('Cash', 'Credit Card', 'Bank Transfer', 'PayPal', 'Other') NOT NULL DEFAULT 'Cash',
+    payment_status  ENUM('Pending', 'Completed', 'Failed', 'Refunded') NOT NULL DEFAULT 'Pending',
+    transaction_id  VARCHAR(100) NULL,
+    description     TEXT NULL,
+    payment_date    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                              ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL,
+    INDEX idx_user_id (user_id),
+    INDEX idx_product_id (product_id),
+    INDEX idx_payment_status (payment_status),
+    INDEX idx_payment_date (payment_date)
+) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------
 -- Sample data
 -- ------------------------------------------------------------
 INSERT INTO products (name, category_id, brand, serial_number, status, purchase_date, assigned_to) VALUES
